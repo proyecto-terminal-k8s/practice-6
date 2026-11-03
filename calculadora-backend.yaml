@@ -1,0 +1,55 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: calculadora-backend
+  namespace: practice-6
+  labels:
+    app.kubernetes.io/name: calculadora-backend
+spec:
+  replicas: 1
+  strategy:
+    type: Recreate
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: calculadora-backend
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/name: calculadora-backend
+    spec:
+      containers:
+        - name: backend
+          image: your-registry/calculadora-backend:latest
+          imagePullPolicy: IfNotPresent
+          ports:
+            - name: http
+              containerPort: 8080
+          env:
+            - name: REQUEST_LOG_FILE
+              value: /app/logs/api-requests.txt
+          readinessProbe:
+            httpGet:
+              path: /actuator/health
+              port: http
+            initialDelaySeconds: 10
+            periodSeconds: 5
+          volumeMounts:
+            - name: request-logs
+              mountPath: /app/logs
+      volumes:
+        - name: request-logs
+          persistentVolumeClaim:
+            claimName: calculadora-logs
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: calculadora-backend
+  namespace: practice-6
+spec:
+  selector:
+    app.kubernetes.io/name: calculadora-backend
+  ports:
+    - name: http
+      port: 8080
+      targetPort: http

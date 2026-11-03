@@ -1,0 +1,14 @@
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: calculadora-logs
+  namespace: practice-6
+  labels:
+    app.kubernetes.io/name: calculadora-job
+spec:
+  accessModes:
+    - ReadWriteOnce
+  storageClassName: csi-hostpath-sc
+  resources:
+    requests:
+      storage: 1Gi
