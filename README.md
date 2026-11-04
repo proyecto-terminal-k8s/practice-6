@@ -13,18 +13,20 @@ minutos; el repositorio usa una ejecución diaria a las 00:05 UTC.
 
 ## Preparación
 
-Construye ambas imágenes y reemplaza el marcador `your-registry` si usas otro
-registro:
+Construye ambas imágenes y cárgalas directamente en Minikube:
 
 ```bash
 cd ../calculadora-backend
-docker build -t tu-registro/calculadora-backend:latest .
-docker push tu-registro/calculadora-backend:latest
+docker build -t calculadora-backend:latest .
+minikube image load calculadora-backend:latest
 cd ../calculadora-job
-docker build -t tu-registro/calculadora-job:latest .
-docker push tu-registro/calculadora-job:latest
+docker build -t calculadora-job:latest .
+minikube image load calculadora-job:latest
 cd ../practice-6
 ```
+
+Para usar registros externos, publica las imágenes con el prefijo deseado y
+reemplaza los nombres en `calculadora-backend.yaml` y `calculadora-cronjob.yaml`.
 
 ## Crear y ejecutar
 

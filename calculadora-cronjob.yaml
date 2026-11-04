@@ -22,7 +22,7 @@ spec:
           restartPolicy: OnFailure
           containers:
             - name: cleanup
-              image: your-registry/calculadora-job:latest
+              image: calculadora-job:latest
               imagePullPolicy: IfNotPresent
               env:
                 - name: REQUEST_LOG_FILE

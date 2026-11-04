@@ -19,7 +19,7 @@ spec:
     spec:
       containers:
         - name: backend
-          image: your-registry/calculadora-backend:latest
+          image: calculadora-backend:latest
           imagePullPolicy: IfNotPresent
           ports:
             - name: http
